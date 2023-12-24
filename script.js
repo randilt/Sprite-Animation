@@ -11,26 +11,34 @@ let frameY = 0; // row of sprite sheet
 let frameColumns = 0; // number of frames in a row
 let gameFrames = 0;
 const staggerFrame = 5; // change to slow down animation ex: 5 = 5 frames per second
-
-spriteAnimations = [
-    // array of animations
-    "idle" ={
-        width: 525,
-        height: 523,
-        loc:[],
-    },
-      "jump" ={
-        width: 120,
-        height: 120,
-        loc:[],
-    },
-      "run" ={
-        width: 1200,
-        height: 1250,
-        loc:[],
-    },
-]
-
+const spriteAnimations = [];
+const animationStates = [
+  {
+    name: "idle",
+    frames: 7,
+  },
+  {
+    name: "jump",
+    frames: 7,
+  },
+  {
+    name: "idle",
+    frames: 7,
+  },
+];
+animationStates.forEach((state, index) => {
+  let frames = {
+    loc: [],
+  };
+  for (let j = 0; j < state.frames; j++) {
+    let positionX = j * spriteWidth;
+    let positionY = index * spriteHeight;
+    frames.loc.push({ x: positionX, y: positionY });
+  }
+  spriteAnimations[state.name] = frames;
+});
+console.log(spriteAnimations);
+// Create sprite sheet
 const playerImg = new Image();
 playerImg.src = "shadow_dog.png";
 
