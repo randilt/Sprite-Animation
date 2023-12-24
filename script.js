@@ -10,6 +10,7 @@ let frameColumns = 0; // number of frames in a row
 let gameFrames = 0;
 const staggerFrame = 5; // change to slow down animation ex: 5 = 5 frames per second
 let playerState = "idle"; // default player state
+
 const spriteAnimations = [];
 const animationStates = [
   {
@@ -67,6 +68,21 @@ animationStates.forEach((state, index) => {
 // Create sprite sheet
 const playerImg = new Image();
 playerImg.src = "shadow_dog.png";
+
+function getSelectedAnimation() {
+  // Get the select element
+  var selection = document.getElementById("animations");
+
+  // Get the selected option
+  var selectedOption = selection.options[selection.selectedIndex];
+
+  // Get the value of the selected option
+  var selectedAnimation = selectedOption.value;
+
+  // Log or use the selected value
+  console.log("Selected Animation:", selectedAnimation);
+  playerState = selectedAnimation;
+}
 
 function drawPlayer() {
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); // clear canvas to prevent overlapping images

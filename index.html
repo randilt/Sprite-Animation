@@ -10,7 +10,11 @@
     <canvas id="canvas"></canvas>
     <div class="controls">
       <label for="animations">Choose Animation:</label>
-      <select name="animations" id="animations">
+      <select
+        name="animations"
+        id="animations"
+        onchange="getSelectedAnimation()"
+      >
         <option value="idle">Idle</option>
         <option value="jump">Jump</option>
         <option value="fall">Fall</option>
