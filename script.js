@@ -6,11 +6,10 @@ const CANVAS_WIDTH = (canvas.width = 600);
 const CANVAS_HEIGHT = (canvas.height = 600);
 const spriteWidth = 575; // width of sprite sheet / number of frames in a row
 const spriteHeight = 523; // height of sprite sheet / number of rows
-let frameX = 0; // column of sprite sheet
-let frameY = 0; // row of sprite sheet
 let frameColumns = 0; // number of frames in a row
 let gameFrames = 0;
 const staggerFrame = 5; // change to slow down animation ex: 5 = 5 frames per second
+let playerState = "idle"; // default player state
 const spriteAnimations = [];
 const animationStates = [
   {
@@ -22,8 +21,36 @@ const animationStates = [
     frames: 7,
   },
   {
-    name: "idle",
+    name: "fall",
     frames: 7,
+  },
+  {
+    name: "run",
+    frames: 9,
+  },
+  {
+    name: "dizzy",
+    frames: 11,
+  },
+  {
+    name: "sit",
+    frames: 5,
+  },
+  {
+    name: "roll",
+    frames: 7,
+  },
+  {
+    name: "bite",
+    frames: 7,
+  },
+  {
+    name: "ko",
+    frames: 12,
+  },
+  {
+    name: "getHit",
+    frames: 4,
   },
 ];
 animationStates.forEach((state, index) => {
@@ -37,7 +64,6 @@ animationStates.forEach((state, index) => {
   }
   spriteAnimations[state.name] = frames;
 });
-console.log(spriteAnimations);
 // Create sprite sheet
 const playerImg = new Image();
 playerImg.src = "shadow_dog.png";
@@ -45,13 +71,17 @@ playerImg.src = "shadow_dog.png";
 function drawPlayer() {
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); // clear canvas to prevent overlapping images
 
-  let position = Math.floor(gameFrames / staggerFrame) % 6; // position of sprite sheet to draw
-  frameX = spriteWidth * position; // x coordinate of sprite sheet to start drawing from
+  let position =
+    Math.floor(gameFrames / staggerFrame) %
+    spriteAnimations[playerState].loc.length; // position of sprite sheet to draw
   // ctx.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight)
+  let frameX = spriteWidth * position; // x position of sprite sheet to draw
+  let frameY = spriteAnimations[playerState].loc[position].y; // y position of sprite sheet to draw
+
   ctx.drawImage(
     playerImg,
     frameX,
-    frameY * spriteHeight,
+    frameY,
     spriteWidth,
     spriteHeight,
     0,
